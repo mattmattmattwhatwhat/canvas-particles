@@ -35,7 +35,8 @@ function clearCanvas() {
 
 function animateScene() {
 	clearCanvas();
-	drawCircle(100, 100, 50, "#0000FF");
+	updateScene();
+	drawScene();
 }
 
 function toggleAnimation() {
@@ -45,6 +46,15 @@ function toggleAnimation() {
 		animationInterval = setInterval(animateScene, framerate);
 	}
 	animating = !animating;
+}
+
+function updateScene() {
+	// update particles
+}
+
+function drawScene() {
+	// draw particles
+	drawCircle(100, 100, 50, "#0000FF");
 }
 
 // Drawing functions ----------------------------------------------------------
