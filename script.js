@@ -88,29 +88,34 @@ Particle = function(x, y, radius, lifetime, color) {
 	var yRate = 0;
 
 	this.draw = function() {
-		drawCircle(this.x, this.y, this.r, this.color);
+		drawCircle(x, y, r, color);
 	}
 
-	this.setMovementSpeed = function(xRate, yRate) {
-		this.xRate = xRate;
-		this.yRate = yRate;
+	this.setMovementSpeed = function(xRateNew, yRateNew) {
+		xRate = xRateNew;
+		yRate = yRateNew;
 	}
 
 	this.adjustMovementSpeed = function(dXRate, dYRate) {
-		this.xRate = this.xRate + dXRate;
-		this.yRate = this.yRate + dYRate;
+		xRate = xRate + dXRate;
+		yRate = yRate + dYRate;
 	}
 
 	this.updateLocation = function() {
-		this.x = this.x + this.xRate;
-		this.y = this.y + this.yRate;
+		x = x + xRate;
+		y = y + yRate;
 	}
 
 }
 
 function populateParticleArray(numberOfParticles) {
+	var particleColors = [
+		'#FF0000',
+		'#00FF00',
+		'#0000FF'
+	];
 	for (i=0; i<numberOfParticles; i++) {
-		particleArray.push(new Particle(25*i, 25*i, 20, 1000, '#ff0000'));
+		particleArray.push(new Particle(25*i, 25*i, 20, 1000, particleColors[i%3]));
 	}
 }
 
