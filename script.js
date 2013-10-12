@@ -4,7 +4,7 @@ var canvas = null,
 	ctx = null;
 
 var animating = false,
-	framerate = 1000/60,
+	framerate = 1000/10,
 	animationInterval = null;
 
 var particleArray = [];
@@ -53,9 +53,6 @@ function toggleAnimation() {
 
 function updateScene() {
 	// update particles
-	for (i=0; i<particleArray.length; i++) {
-		particleArray[i].move(2,0);
-	}
 }
 
 function drawScene() {
@@ -78,23 +75,37 @@ function drawCircle(x, y, r, color) {
 // Particle section -----------------------------------------------------------
 
 Particle = function(x, y, radius, lifetime, color) {
-	this.x = x;
-	this.y = y;
-	this.r = radius;
+	var x = x;
+	var y = y;
+	var r = radius;
 
-	this.spawntime = Date.now();
-	this.life = lifetime;
+	var spawntime = Date.now();
+	var life = lifetime;
 
-	this.color = color;
+	var color = color;
+
+	var xRate = 0;
+	var yRate = 0;
 
 	this.draw = function() {
 		drawCircle(this.x, this.y, this.r, this.color);
 	}
 
-	this.move = function(deltaX, deltaY) {
-		this.x = this.x + deltaX;
-		this.y = this.y + deltaY;
+	this.setMovementSpeed = function(xRate, yRate) {
+		this.xRate = xRate;
+		this.yRate = yRate;
 	}
+
+	this.adjustMovementSpeed = function(dXRate, dYRate) {
+		this.xRate = this.xRate + dXRate;
+		this.yRate = this.yRate + dYRate;
+	}
+
+	this.updateLocation = function() {
+		this.x = this.x + this.xRate;
+		this.y = this.y + this.yRate;
+	}
+
 }
 
 function populateParticleArray(numberOfParticles) {
