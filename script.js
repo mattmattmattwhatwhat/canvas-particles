@@ -67,7 +67,7 @@ function updateScene() {
 
 function drawScene() {
 	// draw particles
-	for (i=0; i<emitterArray.length; i++) {
+	for (i=emitterArray.length-1; i>0; i--) {
 		for (j=emitterArray[i].particleArray.length-1; j>0; j--) {
 			emitterArray[i].particleArray[j].draw();
 		}
