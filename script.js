@@ -81,6 +81,7 @@ Particle = function(x, y, radius, lifetime, color) {
 
 	var spawntime = Date.now();
 	var life = lifetime;
+	var killFlag = false;
 
 	var color = color;
 
@@ -106,6 +107,12 @@ Particle = function(x, y, radius, lifetime, color) {
 		y = y + yRate;
 	}
 
+	this.checkAge = function() {
+		if (Date.now() < spawntime + life) {
+			killFlag = true;
+		}
+	}
+
 }
 
 function populateParticleArray(numberOfParticles) {
@@ -118,6 +125,8 @@ function populateParticleArray(numberOfParticles) {
 		particleArray.push(new Particle(25*i, 25*i, 20, 1000, particleColors[i%3]));
 	}
 }
+
+// Event handlers -------------------------------------------------------------
 
 
 
