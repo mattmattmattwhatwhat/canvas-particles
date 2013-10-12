@@ -48,18 +48,12 @@ function toggleAnimation() {
 function updateScene() {
 	// update particles
 	for (i=0; i<emitterArray.length; i++) {
-		
 		emitter = emitterArray[i];
 		emitter.emitParticle();
-
 		for (j=0; j<emitter.particleArray.length; j++) {
-
 			emitter.particleArray[j].age();
-
 			if (emitter.particleArray[j].getKillStatus()) {
-				
 				emitter.particleArray.splice(j, 1);
-				
 				j--;
 			}
 		}
@@ -174,15 +168,20 @@ function addParticleToArray(x, y, particleArray) {
 	particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
-ParticleEmitter = function(x, y, functioning) {
+ParticleEmitter = function(x, y, emissionDelay) {
 	this.x = x;
 	this.y = y;
-	this.isOn = functioning;
-	this.particleArray = []
+
+	this.isOn = true;
+	this.particleArray = [];
+
+	this.delay = emissionDelay;
+	this.lastParticleTime = Date.now() - emissionDelay;
 
 	this.emitParticle = function() {
-		if (this.isOn) {
+		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
 			addParticleToArray(this.x, this.y, this.particleArray);
+			this.lastParticleTime = Date.now();
 		}
 	}
 
@@ -200,7 +199,7 @@ $(document).mousemove(function(e) {
 })
 
 $(document).click(function(e) {
-	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, true));
+	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 100));
 })
 
 
