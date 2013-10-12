@@ -47,18 +47,32 @@ function toggleAnimation() {
 
 function updateScene() {
 	// update particles
-	for (i=0; i<particleArray.length; i++) {
-		particleArray[i].age();
+	for (i=0; i<emitterArray.length; i++) {
+		
+		emitter = emitterArray[i];
+		emitter.emitParticle();
 
-		if (particleArray[i].getKillStatus()) {
-			particleArray.splice(i, 1);
-			i--;
+		for (j=0; j<emitter.particleArray.length; j++) {
+
+			emitter.particleArray[j].age();
+
+			if (emitter.particleArray[j].getKillStatus()) {
+				
+				emitter.particleArray.splice(j, 1);
+				
+				j--;
+			}
 		}
 	}
 }
 
 function drawScene() {
 	// draw particles
+	for (i=0; i<emitterArray.length; i++) {
+		for (j=0; j<emitterArray[i].particleArray.length; j++) {
+			emitterArray[i].particleArray[j].draw();
+		}
+	}
 	for (i=0; i<particleArray.length; i++) {
 		particleArray[i].draw();
 	}
@@ -163,12 +177,12 @@ function addParticleToArray(x, y, particleArray) {
 ParticleEmitter = function(x, y, functioning) {
 	this.x = x;
 	this.y = y;
-	this.on = functioning;
+	this.isOn = functioning;
 	this.particleArray = []
 
 	this.emitParticle = function() {
-		if (this.on) {
-			this.addParticleToArray(this.x, this.y, this.particleArray);
+		if (this.isOn) {
+			addParticleToArray(this.x, this.y, this.particleArray);
 		}
 	}
 
@@ -182,7 +196,7 @@ ParticleEmitter = function(x, y, functioning) {
 
 $(document).mousemove(function(e) {
 	var randomOffset = 10 - Math.floor(Math.random()*11)
-	addParticleToArray(e.pageX + randomOffset, e.pageY + randomOffset, particleArray);
+	//addParticleToArray(e.pageX + randomOffset, e.pageY + randomOffset, particleArray);
 })
 
 $(document).click(function(e) {
