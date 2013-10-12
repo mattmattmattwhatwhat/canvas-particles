@@ -54,6 +54,7 @@ function toggleAnimation() {
 function updateScene() {
 	// update particles
 	for (i=0; i<particleArray.length; i++) {
+		particleArray[i].age();
 		particleArray[i].updateColor();
 		particleArray[i].updateLocation();
 	}
@@ -89,7 +90,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 
 	var spawntime = Date.now();
 	var life = lifetime;
-	var killFlag = false;
+	this.killFlag = false;
 
 	var color = null;
 	var colorR = r;
@@ -112,6 +113,15 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 			")";
 	}
 
+	this.fadeOverTime = function() {
+		colorA = 1 - (Date.now() - spawntime)/life;
+	}
+
+	this.age = function() {
+		this.fadeOverTime();
+		this.checkAge();
+	}
+
 	this.setMovementSpeed = function(xRateNew, yRateNew) {
 		xRate = xRateNew;
 		yRate = yRateNew;
@@ -129,7 +139,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 
 	this.checkAge = function() {
 		if (Date.now() < spawntime + life) {
-			killFlag = true;
+			this.killFlag = true;
 		}
 	}
 }
@@ -139,7 +149,7 @@ function addParticleToArray(x, y) {
 	g = Math.floor(Math.random()*255);
 	b = Math.floor(Math.random()*255);
 	a = 1.0;
-	particleArray.push(new Particle(x, y, 20, 10000, r, g, b, a));
+	particleArray.push(new Particle(x, y, 20, 1000, r, g, b, a));
 	particleArray[particleArray.length -1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
