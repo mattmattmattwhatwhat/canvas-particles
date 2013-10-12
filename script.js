@@ -23,3 +23,7 @@ function drawCircle(x, y, r, color) {
 	ctx.fillStyle = color;
 	ctx.fill();
 }
+
+function clearCanvas() {
+	ctx.clearRect(0, 0, canvas.w, canvas.h);
+}
