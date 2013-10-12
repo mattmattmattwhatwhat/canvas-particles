@@ -8,6 +8,7 @@ var animating = false,
 	animationInterval = null;
 
 var particleArray = [];
+var emitterArray = [];
 
 // Initializing everything on pageload ----------------------------------------
 
@@ -150,7 +151,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 }
 
-function addParticleToArray(x, y) {
+function addParticleToArray(x, y, particleArray) {
 	r = Math.floor(Math.random()*255);
 	g = Math.floor(Math.random()*255);
 	b = Math.floor(Math.random()*255);
@@ -159,22 +160,34 @@ function addParticleToArray(x, y) {
 	particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
+ParticleEmitter = function(x, y, functioning) {
+	this.x = x;
+	this.y = y;
+	this.on = functioning;
+	this.particleArray = []
 
-function populateParticleArray(numberOfParticles) {
-	for (i=0; i<numberOfParticles; i++) {
-		particleArray.push(new Particle(25*i, 25*i, 20, 1000, particleColors[i%3]));
+	this.emitParticle = function() {
+		if (this.on) {
+			this.addParticleToArray(this.x, this.y, this.particleArray);
+		}
+	}
+
+	this.drawParticles = function() {
+		for (i=0; i<this.particleArray.length; i++) {
+			this.particleArray[i].draw();
+		}
 	}
 }
-
 // Event handlers -------------------------------------------------------------
 
 $(document).mousemove(function(e) {
 	var randomOffset = 10 - Math.floor(Math.random()*11)
-	addParticleToArray(e.pageX + randomOffset, e.pageY + randomOffset);
+	addParticleToArray(e.pageX + randomOffset, e.pageY + randomOffset, particleArray);
 })
 
-
-
+$(document).click(function(e) {
+	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, true));
+})
 
 
 
