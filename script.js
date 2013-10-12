@@ -4,7 +4,7 @@ var canvas = null,
 	ctx = null;
 
 var animating = false,
-	framerate = 1000/10,
+	framerate = 1000/60,
 	animationInterval = null;
 
 var particleArray = [];
@@ -31,7 +31,7 @@ function resizeCanvas(width, height) {
 }
 
 function clearCanvas() {
-	ctx.clearRect(0, 0, canvas.w, canvas.h);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 // Animation functions --------------------------------------------------------
@@ -53,14 +53,17 @@ function toggleAnimation() {
 
 function updateScene() {
 	// update particles
+	for (i=0; i<particleArray.length; i++) {
+		particleArray[i].move(2,0);
+	}
 }
 
 function drawScene() {
 	// draw particles
+	clearCanvas();
 	for (i=0; i<particleArray.length; i++) {
 		particleArray[i].draw();
 	}
-	drawCircle(100, 100, 50, "#0000FF");
 }
 
 // Drawing functions ----------------------------------------------------------
@@ -86,6 +89,11 @@ Particle = function(x, y, radius, lifetime, color) {
 
 	this.draw = function() {
 		drawCircle(this.x, this.y, this.r, this.color);
+	}
+
+	this.move = function(deltaX, deltaY) {
+		this.x = this.x + deltaX;
+		this.y = this.y + deltaY;
 	}
 }
 
