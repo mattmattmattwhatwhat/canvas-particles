@@ -19,7 +19,6 @@ function initialize() {
 	canvas = document.getElementById("maincanvas");
 	ctx = canvas.getContext('2d');
 	resizeCanvas(window.innerWidth, window.innerHeight);
-	//populateParticleArray(10);
 	toggleAnimation();
 }
 
@@ -36,12 +35,6 @@ function clearCanvas() {
 
 // Animation functions --------------------------------------------------------
 
-function animateScene() {
-	clearCanvas();
-	updateScene();
-	drawScene();
-}
-
 function toggleAnimation() {
 	if (animating) {
 		animationInterval = null;
@@ -52,9 +45,10 @@ function toggleAnimation() {
 }
 
 function updateScene() {
+	// update particles
 	for (i=0; i<particleArray.length; i++) {
 		particleArray[i].age();
-		
+
 		if (particleArray[i].getKillStatus()) {
 			particleArray.splice(i, 1);
 			i--;
@@ -69,6 +63,12 @@ function drawScene() {
 	}
 }
 
+function animateScene() {
+	clearCanvas();
+	updateScene();
+	drawScene();
+}
+
 // Drawing functions ----------------------------------------------------------
 
 function drawCircle(x, y, r, color) {
@@ -81,11 +81,6 @@ function drawCircle(x, y, r, color) {
 // Particle section -----------------------------------------------------------
 
 Particle = function(x, y, radius, lifetime, r, g, b, a) {
-/*	this.x = x;
-	this.y = y;
-	this.r = radius;
-*/
-	
 	var x = x;
 	var y = y;
 	var r = radius;
@@ -122,7 +117,6 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 		this.fadeOverTime();
 		this.updateColor();
 		this.updateLocation();
-		//this.checkAge();
 	}
 
 	this.setMovementSpeed = function(xRateNew, yRateNew) {
@@ -161,8 +155,8 @@ function addParticleToArray(x, y) {
 	g = Math.floor(Math.random()*255);
 	b = Math.floor(Math.random()*255);
 	a = 1.0;
-	particleArray.push(new Particle(x, y, 10, 3000, r, g, b, a));
-	particleArray[particleArray.length -1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
+	particleArray.push(new Particle(x, y, 20, 4000, r, g, b, a));
+	particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
 
@@ -175,7 +169,7 @@ function populateParticleArray(numberOfParticles) {
 // Event handlers -------------------------------------------------------------
 
 $(document).mousemove(function(e) {
-	var randomOffset = 5 - Math.floor(Math.random()*6)
+	var randomOffset = 10 - Math.floor(Math.random()*11)
 	addParticleToArray(e.pageX + randomOffset, e.pageY + randomOffset);
 })
 
