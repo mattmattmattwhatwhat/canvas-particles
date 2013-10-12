@@ -7,12 +7,7 @@ var animating = false,
 	framerate = 1000/60,
 	animationInterval = null;
 
-var particleArray = [],
-	particleColors = [
-		'#FF0000',
-		'#00FF00',
-		'#0000FF'
-	];
+var particleArray = [];
 
 // Initializing everything on pageload ----------------------------------------
 
@@ -59,13 +54,13 @@ function toggleAnimation() {
 function updateScene() {
 	// update particles
 	for (i=0; i<particleArray.length; i++) {
+		particleArray[i].updateColor();
 		particleArray[i].updateLocation();
 	}
 }
 
 function drawScene() {
 	// draw particles
-	//clearCanvas();
 	for (i=0; i<particleArray.length; i++) {
 		particleArray[i].draw();
 	}
@@ -82,7 +77,7 @@ function drawCircle(x, y, r, color) {
 
 // Particle section -----------------------------------------------------------
 
-Particle = function(x, y, radius, lifetime, color) {
+Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	this.x = x;
 	this.y = y;
 	this.r = radius;
@@ -95,13 +90,25 @@ Particle = function(x, y, radius, lifetime, color) {
 	var life = lifetime;
 	var killFlag = false;
 
-	var color = color;
+	var color = null;
+	var colorR = r;
+	var colorG = g;
+	var colorB = b;
+	var colorA = a;
 
 	var xRate = 0;
 	var yRate = 0;
 
 	this.draw = function() {
 		drawCircle(x, y, r, color);
+	}
+
+	this.updateColor = function() {
+		color = "rgba(" + colorR.toString() +
+			"," + colorG.toString() +
+			"," + colorB.toString() +
+			"," + colorA.toString() +
+			")";
 	}
 
 	this.setMovementSpeed = function(xRateNew, yRateNew) {
@@ -127,8 +134,12 @@ Particle = function(x, y, radius, lifetime, color) {
 }
 
 function addParticleToArray(x, y) {
-	particleArray.push(new Particle(x, y, 20, 10000, particleColors[Math.floor(Math.random()*3)]));
-	particleArray[particleArray.length -1].setMovementSpeed(5 - Math.random()*10, 5 - Math.random()*10);
+	r = Math.floor(Math.random()*255);
+	g = Math.floor(Math.random()*255);
+	b = Math.floor(Math.random()*255);
+	a = 1.0;
+	particleArray.push(new Particle(x, y, 20, 10000, r, g, b, a));
+	particleArray[particleArray.length -1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
 
