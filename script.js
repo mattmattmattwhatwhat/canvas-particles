@@ -20,6 +20,7 @@ function initialize() {
 	canvas = document.getElementById("maincanvas");
 	ctx = canvas.getContext('2d');
 	resizeCanvas(window.innerWidth, window.innerHeight);
+	createSlider();
 	toggleAnimation();
 }
 
@@ -71,6 +72,10 @@ function drawScene() {
 		for (j=emitterArray[i].particleArray.length-1; j>0; j--) {
 			emitterArray[i].particleArray[j].draw();
 		}
+	}
+
+	for (i=0; i<sliderArray.length; i++) {
+		sliderArray[i].draw();
 	}
 }
 
@@ -181,7 +186,7 @@ ParticleEmitter = function(x, y, emissionDelay) {
 	this.lastParticleTime = Date.now() - emissionDelay;
 
 	this.particleCount = 0;
-	this.particleLimit = 15;
+	this.particleLimit = 15000;
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
@@ -203,21 +208,58 @@ ParticleEmitter = function(x, y, emissionDelay) {
 	}
 }
 // Event handlers -------------------------------------------------------------
-
+/*
 $(document).mousemove(function(e) {
 	var randomOffset = 10 - Math.floor(Math.random()*11)
 	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0));
 })
-
+*/
 $(window).resize(function() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 })
-/*$(document).click(function(e) {
+
+$(document).click(function(e) {
 	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 0));
-})*/
+})
 
+function determineClickIntent(e) {
+	// if click is within slider area, adjust slider
+	// else add particle emitter
+}
 
+// Creating a slider ----------------------------------------------------------
 
+Slider = function(x, y, width, height, sliderPercent) {
+	this.x = x;
+	this.y = y;
+	this.w = width;
+	this.h = height;
+
+	this.sliderW = width/10;
+	this.sliderH = height;
+	this.sliderPercent = sliderPercent;
+	this.sliderX = this.x + (this.w * this.sliderPercent);
+
+	this.backgroundColor = "#999999";
+	this.sliderColor = "#9999FF";
+
+	this.draw = function() {
+		ctx.beginPath();
+		ctx.fillStyle = this.backgroundColor;
+		ctx.fillRect(this.x, this.y, this.w, this.h);
+		ctx.fill();
+		ctx.beginPath();
+		ctx.fillStyle = this.sliderColor;
+		ctx.fillRect(this.sliderX, this.y, this.sliderW, this.sliderH);
+		ctx.fill();
+	}
+}
+
+sliderArray = [];
+
+function createSlider() {
+	sliderArray.push(new Slider(100, 100, 100, 50, .5));
+}
 
 
 
