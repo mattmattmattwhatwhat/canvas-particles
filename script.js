@@ -78,9 +78,10 @@ function drawCircle(x, y, r, color) {
 // Particle section -----------------------------------------------------------
 
 Particle = function(x, y, radius, lifetime, r, g, b, a) {
-	this.x = x;
+/*	this.x = x;
 	this.y = y;
 	this.r = radius;
+*/
 	
 	var x = x;
 	var y = y;
