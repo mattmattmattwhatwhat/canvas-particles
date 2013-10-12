@@ -4,10 +4,15 @@ var canvas = null,
 	ctx = null;
 
 var animating = false,
-	framerate = 1000/10,
+	framerate = 1000/60,
 	animationInterval = null;
 
-var particleArray = [];
+var particleArray = [],
+	particleColors = [
+		'#FF0000',
+		'#00FF00',
+		'#0000FF'
+	];
 
 // Initializing everything on pageload ----------------------------------------
 
@@ -19,7 +24,7 @@ function initialize() {
 	canvas = document.getElementById("maincanvas");
 	ctx = canvas.getContext('2d');
 	resizeCanvas(window.innerWidth, window.innerHeight);
-	populateParticleArray(10);
+	//populateParticleArray(10);
 	toggleAnimation();
 }
 
@@ -53,11 +58,14 @@ function toggleAnimation() {
 
 function updateScene() {
 	// update particles
+	for (i=0; i<particleArray.length; i++) {
+		particleArray[i].updateLocation();
+	}
 }
 
 function drawScene() {
 	// draw particles
-	clearCanvas();
+	//clearCanvas();
 	for (i=0; i<particleArray.length; i++) {
 		particleArray[i].draw();
 	}
@@ -75,6 +83,10 @@ function drawCircle(x, y, r, color) {
 // Particle section -----------------------------------------------------------
 
 Particle = function(x, y, radius, lifetime, color) {
+	this.x = x;
+	this.y = y;
+	this.r = radius;
+	
 	var x = x;
 	var y = y;
 	var r = radius;
@@ -112,15 +124,15 @@ Particle = function(x, y, radius, lifetime, color) {
 			killFlag = true;
 		}
 	}
-
 }
 
+function addParticleToArray(x, y) {
+	particleArray.push(new Particle(x, y, 20, 10000, particleColors[Math.floor(Math.random()*3)]));
+	particleArray[particleArray.length -1].setMovementSpeed(5 - Math.random()*10, 5 - Math.random()*10);
+}
+
+
 function populateParticleArray(numberOfParticles) {
-	var particleColors = [
-		'#FF0000',
-		'#00FF00',
-		'#0000FF'
-	];
 	for (i=0; i<numberOfParticles; i++) {
 		particleArray.push(new Particle(25*i, 25*i, 20, 1000, particleColors[i%3]));
 	}
@@ -128,7 +140,9 @@ function populateParticleArray(numberOfParticles) {
 
 // Event handlers -------------------------------------------------------------
 
-
+$(document).click(function(e) {
+	addParticleToArray(e.pageX, e.pageY);
+})
 
 
 
