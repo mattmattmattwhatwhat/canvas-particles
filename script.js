@@ -57,6 +57,10 @@ function updateScene() {
 		particleArray[i].age();
 		particleArray[i].updateColor();
 		particleArray[i].updateLocation();
+		if (particleArray[i].killFlag) {
+			particleArray.splice(i, 1);
+			i--;
+		}
 	}
 }
 
@@ -138,7 +142,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 
 	this.checkAge = function() {
-		if (Date.now() < spawntime + life) {
+		if (Date.now() - spawntime > life) {
 			this.killFlag = true;
 		}
 	}
