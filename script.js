@@ -1,9 +1,13 @@
+// Global variables for canvas/animations -------------------------------------
+
 var canvas = null,
 	ctx = null;
 
 var animating = false,
 	framerate = 1000/10,
 	animationInterval = null;
+
+// Initializing everything on pageload ----------------------------------------
 
 $(document).ready(function() {
 	initialize();
@@ -16,10 +20,18 @@ function initialize() {
 	toggleAnimation();
 }
 
+// Full canvas manipulation ---------------------------------------------------
+
 function resizeCanvas(width, height) {
 	canvas.w = width;
 	canvas.h = height;
 }
+
+function clearCanvas() {
+	ctx.clearRect(0, 0, canvas.w, canvas.h);
+}
+
+// Animation functions --------------------------------------------------------
 
 function animateScene() {
 	clearCanvas();
@@ -35,9 +47,7 @@ function toggleAnimation() {
 	animating = !animating;
 }
 
-function clearCanvas() {
-	ctx.clearRect(0, 0, canvas.w, canvas.h);
-}
+// Drawing functions ----------------------------------------------------------
 
 function drawCircle(x, y, r, color) {
 	ctx.beginPath();
