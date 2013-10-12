@@ -166,7 +166,7 @@ function addParticleToArray(x, y, particleArray) {
 	g = Math.floor(Math.random()*255);
 	b = Math.floor(Math.random()*255);
 	a = 1.0;
-	particleArray.push(new Particle(x, y, 15, 1000, r, g, b, a));
+	particleArray.push(new Particle(x, y, 10, 1000, r, g, b, a));
 	particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
@@ -209,6 +209,9 @@ $(document).mousemove(function(e) {
 	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0));
 })
 
+$(window).resize(function() {
+	resizeCanvas(window.innerWidth, window.innerHeight);
+})
 /*$(document).click(function(e) {
 	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 0));
 })*/
