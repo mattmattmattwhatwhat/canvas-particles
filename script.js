@@ -153,7 +153,7 @@ function addParticleToArray(x, y) {
 	g = Math.floor(Math.random()*255);
 	b = Math.floor(Math.random()*255);
 	a = 1.0;
-	particleArray.push(new Particle(x, y, 20, 1000, r, g, b, a));
+	particleArray.push(new Particle(x, y, 20, 4000, r, g, b, a));
 	particleArray[particleArray.length -1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
 }
 
@@ -166,7 +166,7 @@ function populateParticleArray(numberOfParticles) {
 
 // Event handlers -------------------------------------------------------------
 
-$(document).click(function(e) {
+$(document).mousemove(function(e) {
 	addParticleToArray(e.pageX, e.pageY);
 })
 
