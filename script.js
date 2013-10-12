@@ -52,12 +52,10 @@ function toggleAnimation() {
 }
 
 function updateScene() {
-	// update particles
 	for (i=0; i<particleArray.length; i++) {
 		particleArray[i].age();
-		particleArray[i].updateColor();
-		particleArray[i].updateLocation();
-		if (particleArray[i].killFlag) {
+		
+		if (particleArray[i].getKillStatus()) {
 			particleArray.splice(i, 1);
 			i--;
 		}
@@ -94,7 +92,6 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 
 	var spawntime = Date.now();
 	var life = lifetime;
-	this.killFlag = false;
 
 	var color = null;
 	var colorR = r;
@@ -123,7 +120,9 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 
 	this.age = function() {
 		this.fadeOverTime();
-		this.checkAge();
+		this.updateColor();
+		this.updateLocation();
+		//this.checkAge();
 	}
 
 	this.setMovementSpeed = function(xRateNew, yRateNew) {
@@ -142,9 +141,18 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 
 	this.checkAge = function() {
-		if (Date.now() - spawntime > life) {
-			this.killFlag = true;
-		}
+		return (Date.now() - spawntime > life)
+	}
+
+	this.checkOutOfBounds = function() {
+		return (x + r < 0 ||
+			x - r > canvas.width ||
+			y + r < 0 ||
+			y - r > canvas.height)
+	}
+
+	this.getKillStatus = function() {
+		return (this.checkOutOfBounds() || this.checkAge())
 	}
 }
 
