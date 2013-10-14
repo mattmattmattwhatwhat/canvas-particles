@@ -49,17 +49,17 @@ function toggleAnimation() {
 function updateScene() {
 	// update particles
 	for (i=0; i<emitterArray.length; i++) {
-		emitter = emitterArray[i];
-		emitter.emitParticle();
-		for (j=0; j<emitter.particleArray.length; j++) {
-			emitter.particleArray[j].age();
-			if (emitter.particleArray[j].getKillStatus()) {
-				emitter.particleArray.splice(j, 1);
+		//emitter = emitterArray[i];
+		emitterArray[i].emitParticle();
+		for (j=0; j<emitterArray[i].particleArray.length; j++) {
+			emitterArray[i].particleArray[j].age();
+			if (emitterArray[i].particleArray[j].getKillStatus()) {
+				emitterArray[i].particleArray.splice(j, 1);
 				j--;
 			}
 		}
-		emitter.checkUsefulness();
-		if (!emitter.isOn && emitter.particleArray.length == 0) {
+		emitterArray[i].checkUsefulness();
+		if (!emitterArray[i].isOn && emitterArray[i].particleArray.length < 1) {
 			emitterArray.splice(i, 1);
 			i--;
 		}
@@ -68,12 +68,11 @@ function updateScene() {
 
 function drawScene() {
 	// draw particles
-	for (i=emitterArray.length-1; i>0; i--) {
-		for (j=emitterArray[i].particleArray.length-1; j>0; j--) {
+	for (i=emitterArray.length-1; i>=0; i--) {
+		for (j=emitterArray[i].particleArray.length-1; j>=0; j--) {
 			emitterArray[i].particleArray[j].draw();
 		}
 	}
-
 	for (i=0; i<sliderArray.length; i++) {
 		sliderArray[i].draw();
 	}
@@ -209,7 +208,7 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit) {
 		g = Math.floor(Math.random()*255);
 		b = Math.floor(Math.random()*255);
 		a = 1.0;
-		particleArray.push(new Particle(x, y, radius, 1000, r, g, b, a));
+		particleArray.push(new Particle(x, y, radius, 5000, r, g, b, a));
 		particleArray[particleArray.length - 1].setMovementSpeed(4 - Math.random()*8, 4 - Math.random()*8);
 }
 
@@ -218,7 +217,7 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit) {
 
 $(document).mousemove(function(e) {
 	var randomOffset = 5 - Math.floor(Math.random()*11)
-	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0, 10));
+	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0, 5));
 })
 
 $(window).resize(function() {
