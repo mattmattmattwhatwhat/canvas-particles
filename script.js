@@ -251,14 +251,8 @@ Slider = function(x, y, width, height, sliderPercent) {
 	this.sliderColor = "#9999FF";
 
 	this.draw = function() {
-		ctx.beginPath();
-		ctx.fillStyle = this.backgroundColor;
-		ctx.fillRect(this.x, this.y, this.w, this.h);
-		ctx.fill();
-		ctx.beginPath();
-		ctx.fillStyle = this.sliderColor;
-		ctx.fillRect(this.sliderX, this.y, this.sliderW, this.sliderH);
-		ctx.fill();
+		drawRectangle(this.x, this.y, this.w, this.h, this.backgroundColor);
+		drawRectangle(this.sliderX, this.y, this.sliderW, this.sliderH, this.sliderColor);
 	}
 }
 
