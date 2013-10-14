@@ -183,7 +183,7 @@ ParticleEmitter = function(x, y, emissionDelay) {
 	this.lastParticleTime = Date.now() - emissionDelay;
 
 	this.particleCount = 0;
-	this.particleLimit = 15000;
+	this.particleLimit = -1;
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
@@ -194,7 +194,7 @@ ParticleEmitter = function(x, y, emissionDelay) {
 	}
 
 	this.checkUsefulness = function() {
-		if (this.particleCount >= this.particleLimit) {
+		if (this.particleCount >= this.particleLimit && this.particleLimit != -1) {
 			this.isOn = false;
 		}
 	}
