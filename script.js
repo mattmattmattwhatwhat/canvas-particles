@@ -187,7 +187,7 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
-			addParticleToArray(this.x, this.y, this.particleArray, this.particleSize);
+			addParticleToArray(this.x, this.y, this.particleArray, Math.floor(Math.random()*this.particleSize/2+this.particleSize/2));
 			this.lastParticleTime = Date.now();
 			this.particleCount++;
 		}
