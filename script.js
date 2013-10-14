@@ -20,7 +20,7 @@ function initialize() {
 	canvas = document.getElementById("maincanvas");
 	ctx = canvas.getContext('2d');
 	resizeCanvas(window.innerWidth, window.innerHeight);
-	createSlider();
+	//createSlider();
 	toggleAnimation();
 }
 
@@ -172,7 +172,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 }
 
-ParticleEmitter = function(x, y, emissionDelay) {
+ParticleEmitter = function(x, y, emissionDelay, particleLimit) {
 	this.x = x;
 	this.y = y;
 
@@ -183,11 +183,11 @@ ParticleEmitter = function(x, y, emissionDelay) {
 	this.lastParticleTime = Date.now() - emissionDelay;
 
 	this.particleCount = 0;
-	this.particleLimit = -1;
+	this.particleLimit = particleLimit;
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
-			addParticleToArray(this.x, this.y, this.particleArray);
+			addParticleToArray(this.x, this.y, this.particleArray, Math.floor(Math.random()*20));
 			this.lastParticleTime = Date.now();
 			this.particleCount++;
 		}
@@ -204,29 +204,29 @@ ParticleEmitter = function(x, y, emissionDelay) {
 		}
 	}
 
-	function addParticleToArray(x, y, particleArray) {
+	function addParticleToArray(x, y, particleArray, radius) {
 		r = Math.floor(Math.random()*255);
 		g = Math.floor(Math.random()*255);
 		b = Math.floor(Math.random()*255);
 		a = 1.0;
-		particleArray.push(new Particle(x, y, 10, 1000, r, g, b, a));
-		particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
+		particleArray.push(new Particle(x, y, radius, 1000, r, g, b, a));
+		particleArray[particleArray.length - 1].setMovementSpeed(4 - Math.random()*8, 4 - Math.random()*8);
 }
 
 }
 // Event handlers -------------------------------------------------------------
-/*
+
 $(document).mousemove(function(e) {
-	var randomOffset = 10 - Math.floor(Math.random()*11)
-	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0));
+	var randomOffset = 5 - Math.floor(Math.random()*11)
+	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0, 10));
 })
-*/
+
 $(window).resize(function() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 })
 
 $(document).click(function(e) {
-	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 0));
+	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 0, -1));
 })
 
 function determineClickIntent(e) {
