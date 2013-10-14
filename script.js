@@ -131,7 +131,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 
 	this.fadeOverTime = function() {
-		colorA = 1 - (Date.now() - spawntime)/life;
+		colorA = .5 - (Date.now() - spawntime)/life/2;
 	}
 
 	this.age = function() {
@@ -187,7 +187,7 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
-			addParticleToArray(this.x, this.y, this.particleArray, Math.floor(Math.random()*this.particleSize/2+this.particleSize/2));
+			addParticleToArray(this.x, this.y, this.particleArray, 1+Math.floor(Math.random()*this.particleSize/2+this.particleSize/2));
 			this.lastParticleTime = Date.now();
 			this.particleCount++;
 		}
@@ -208,25 +208,25 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 		r = Math.floor(Math.random()*255);
 		g = Math.floor(Math.random()*255);
 		b = Math.floor(Math.random()*255);
-		a = 1.0;
+		a = 0.5;
 		particleArray.push(new Particle(x, y, radius, 10000, r, g, b, a));
 		particleArray[particleArray.length - 1].setMovementSpeed(1 - Math.random()*2, 1 - Math.random()*2);
 }
 
 }
 // Event handlers -------------------------------------------------------------
-
+/*
 $(document).mousemove(function(e) {
 	var randomOffset = 5 - Math.floor(Math.random()*11)
-	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0, 5, 10));
+	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 10, 30, 6));
 })
-
+*/
 $(window).resize(function() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 })
 
 $(document).click(function(e) {
-	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 100, -1, 50));
+	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 100, -1, 30));
 })
 
 function determineClickIntent(e) {
