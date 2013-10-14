@@ -184,10 +184,13 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 	this.particleCount = 0;
 	this.particleLimit = particleLimit;
 	this.particleSize = particleSize;
+	this.particleOffset = function(scale) {
+		return scale - Math.random()*scale*2;
+	}
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
-			addParticleToArray(this.x, this.y, this.particleArray, 1+Math.floor(Math.random()*this.particleSize/2+this.particleSize/2));
+			addParticleToArray(this.x + this.particleOffset(20), this.y+this.particleOffset(20), this.particleArray, 1+Math.floor(Math.random()*this.particleSize/2+this.particleSize/2));
 			this.lastParticleTime = Date.now();
 			this.particleCount++;
 		}
@@ -211,7 +214,7 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 		a = 0.5;
 		particleArray.push(new Particle(x, y, radius, 10000, r, g, b, a));
 		particleArray[particleArray.length - 1].setMovementSpeed(1 - Math.random()*2, 1 - Math.random()*2);
-}
+	}
 
 }
 // Event handlers -------------------------------------------------------------
