@@ -171,7 +171,7 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 }
 
-ParticleEmitter = function(x, y, emissionDelay, particleLimit) {
+ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 	this.x = x;
 	this.y = y;
 
@@ -183,10 +183,11 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit) {
 
 	this.particleCount = 0;
 	this.particleLimit = particleLimit;
+	this.particleSize = particleSize;
 
 	this.emitParticle = function() {
 		if (this.isOn && (Date.now() - this.lastParticleTime) > this.delay) {
-			addParticleToArray(this.x, this.y, this.particleArray, Math.floor(Math.random()*30));
+			addParticleToArray(this.x, this.y, this.particleArray, this.particleSize);
 			this.lastParticleTime = Date.now();
 			this.particleCount++;
 		}
@@ -214,18 +215,18 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit) {
 
 }
 // Event handlers -------------------------------------------------------------
-/*
+
 $(document).mousemove(function(e) {
 	var randomOffset = 5 - Math.floor(Math.random()*11)
-	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0, 5));
+	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 0, 5, 10));
 })
-*/
+
 $(window).resize(function() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 })
 
 $(document).click(function(e) {
-	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 100, -1));
+	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 100, -1, 50));
 })
 
 function determineClickIntent(e) {
