@@ -166,15 +166,6 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 }
 
-function addParticleToArray(x, y, particleArray) {
-	r = Math.floor(Math.random()*255);
-	g = Math.floor(Math.random()*255);
-	b = Math.floor(Math.random()*255);
-	a = 1.0;
-	particleArray.push(new Particle(x, y, 10, 1000, r, g, b, a));
-	particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
-}
-
 ParticleEmitter = function(x, y, emissionDelay) {
 	this.x = x;
 	this.y = y;
@@ -206,6 +197,16 @@ ParticleEmitter = function(x, y, emissionDelay) {
 			this.particleArray[i].draw();
 		}
 	}
+
+	function addParticleToArray(x, y, particleArray) {
+		r = Math.floor(Math.random()*255);
+		g = Math.floor(Math.random()*255);
+		b = Math.floor(Math.random()*255);
+		a = 1.0;
+		particleArray.push(new Particle(x, y, 10, 1000, r, g, b, a));
+		particleArray[particleArray.length - 1].setMovementSpeed(2 - Math.random()*4, 2 - Math.random()*4);
+}
+
 }
 // Event handlers -------------------------------------------------------------
 /*
