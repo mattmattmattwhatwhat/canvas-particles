@@ -94,6 +94,12 @@ function drawCircle(x, y, r, color) {
 	ctx.fill();
 }
 
+function drawRectangle(x, y, w, h, color) {
+	ctx.beginPath();
+	ctx.fillStyle = color;
+	ctx.fillRect(x, y, w, h);
+	ctx.fill();
+}
 // Particle section -----------------------------------------------------------
 
 Particle = function(x, y, radius, lifetime, r, g, b, a) {
