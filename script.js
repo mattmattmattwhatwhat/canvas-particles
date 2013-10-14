@@ -22,6 +22,11 @@ function initialize() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 	//createSlider();
 	toggleAnimation();
+	for (i=0; i<5; i++) {
+		for (j=0; j<5; j++) {
+			emitterArray.push(new ParticleEmitter(j*canvas.width/5 + canvas.width/10, i*canvas.height/5 + canvas.height/10, 5000, -1, 80));
+		}
+	}
 }
 
 // Full canvas manipulation ---------------------------------------------------
@@ -131,7 +136,12 @@ Particle = function(x, y, radius, lifetime, r, g, b, a) {
 	}
 
 	this.fadeOverTime = function() {
-		colorA = .5 - (Date.now() - spawntime)/life/2;
+		//colorA = .5 - (Date.now() - spawntime)/life/2;
+		if ((Date.now() - spawntime)/life > .5) {
+			colorA = .5 - (Date.now() - spawntime)/life/2;
+		} else {
+			colorA = (Date.now() - spawntime)/life/2;
+		}
 	}
 
 	this.age = function() {
@@ -211,11 +221,10 @@ ParticleEmitter = function(x, y, emissionDelay, particleLimit, particleSize) {
 		r = Math.floor(Math.random()*255);
 		g = Math.floor(Math.random()*255);
 		b = Math.floor(Math.random()*255);
-		a = 0.5;
-		particleArray.push(new Particle(x, y, radius, 10000, r, g, b, a));
-		particleArray[particleArray.length - 1].setMovementSpeed(1 - Math.random()*2, 1 - Math.random()*2);
+		a = 0;
+		particleArray.push(new Particle(x, y, radius, 20000, r, g, b, a));
+		particleArray[particleArray.length - 1].setMovementSpeed(.5 - Math.random(), .5 - Math.random()*1);
 	}
-
 }
 // Event handlers -------------------------------------------------------------
 /*
