@@ -12,9 +12,10 @@ var emitterArray = [];
 
 // Initializing everything on pageload ----------------------------------------
 
-$(document).ready(function() {
+//$(document).ready(function() {
+window.onload = function() {
 	initialize();
-});
+};
 
 function initialize() {
 	canvas = document.getElementById("maincanvas");
@@ -233,13 +234,15 @@ $(document).mousemove(function(e) {
 	emitterArray.push(new ParticleEmitter(e.pageX + randomOffset, e.pageY + randomOffset, 10, 30, 6));
 })
 */
-$(window).resize(function() {
+//$(window).resize(function() {
+window.onresize = function() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
-})
+};
 
-$(document).click(function(e) {
+//$(document).click(function(e) {
+document.onclick = function(e) {
 	emitterArray.push(new ParticleEmitter(e.pageX, e.pageY, 100, -1, 30));
-})
+};
 
 function determineClickIntent(e) {
 	// if click is within slider area, adjust slider
